@@ -1,6 +1,6 @@
 const { NotImplementedError } = require('../extensions/index.js');
 
-// const { ListNode } = require('../extensions/list-node.js');
+const { ListNode } = require('../extensions/list-node.js');
 
 /**
  * Implement the Queue with a given interface via linked list (use ListNode extension above).
@@ -15,19 +15,54 @@ const { NotImplementedError } = require('../extensions/index.js');
  */
 class Queue {
 
-  getUnderlyingList() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor(){
+    this.head = null;
+    this.tail = null;
   }
 
-  enqueue(/* value */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  getUnderlyingList() {
+    return this.head;
+  }
+
+  enqueue(value) {
+    // Создаём новый узел.
+    const newNode = new ListNode(value);
+
+    // Если нет head или tail, делаем новым узлом head и tail.
+    if (!this.head || !this.tail) {
+      this.head = newNode;
+      this.tail = newNode;
+      return this;
+    }
+
+    // Присоединяем новый узел к концу связного списка.
+    // Берём последний узел и указываем, что его next будет новым узлом.
+    this.tail.next = newNode;
+
+    // Переназначаем tail на новый узел.
+    this.tail = newNode;
+    return this;
   }
 
   dequeue() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    // Если нет head значит список пуст.
+    if (!this.head) {
+      return null;
+    }
+
+    const deletedHead = this.head.value;
+    // Если у head есть ссылка на следующий "next" узел
+    // то делаем его новым head.
+    if (this.head.next) {
+      this.head = this.head.next;
+    } else {
+      // Если у head нет ссылки на следующий "next" узел
+      // то мы удаляем последний узел.
+      this.head = null;
+      this.tail = null;
+    }
+    
+    return deletedHead;
   }
 }
 
